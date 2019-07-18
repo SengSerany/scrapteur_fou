@@ -2,25 +2,33 @@ require 'nokogiri'
 require 'open-uri'
 require 'pry'
 
-page = Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
+def url_page
+	Nokogiri::HTML(open("https://coinmarketcap.com/all/views/all/"))
+end
 
-def crypto
-	name = page.xpath('//*/td[2]/span/a')
-	cours = page.xpath('//*/td[5]/a')
-
-	cours_array = []
+def extract_crypto_monney_name(url_page)[position]
 	name_array = []
+	name_cryptos = url_page.xpath('//*/td[2]/span/a')
+		name_cryptos.each do |monnaie|
+		name_array << monnaie.text
+end
+return name_array
+end
 
-	name.each do |x|
-		name_array << x.text
-	end
+def cours_crypto(url_page)
+	cours_array = []
+	cours = url_page.xpath('//*/td[5]/a')
+	cours.each do |dollar|
+		cours_array << dollar.text
+end
+return cours_array
+end
 
-	cours.each do |x|
-		cours_array << x.text
-
-	end
-
-	hash = name_array.flatten.zip(cours_array.flatten).to_h
+def hash_crypto
+	crypto = extract_crypto_monney_name(url_page).flatten
+	cours = cours_crypto(url_page).flatten
+	hash = crypto.zip(cours).to_h
 	puts hash
 end
 
+extract_crypto_monney_name(url_page)[5]
