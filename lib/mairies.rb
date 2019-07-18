@@ -35,6 +35,3 @@ def hash_townof_95
 		get_townhall_email(townhall_url)
 	end
 end 
-
-
-hash_townof_95
