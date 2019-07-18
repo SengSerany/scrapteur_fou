@@ -17,18 +17,17 @@ annuaire_des_mairies = 'https://www.annuaire-des-mairies.com/val-d-oise.html'
 page = Nokogiri::HTML(open(annuaire_des_mairies))
 	page.xpath('//a[@class ="lientxt"]').each do |x|
 	array_nom << x['href'].sub!(".","http://annuaire-des-mairies.com")
-	return array_nom
+	return array_nom.flatten
 	end
 end
 
 def get_townhall_mail(get_townhall_urls)
+	array_mail_mairie = []
 	get_townhall_urls.each do |x|
-		binding.pry
 		page = Nokogiri::HTML(open(x))
-		email_mairie = page.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]')
-	puts email_mairie.text
-endx
+			mail_mairie = page.xpath('/html/body/div/main/section[2]/div/table/tbody/tr[4]/td[2]')
+			puts mail_mairie.text
+	end
 end
 
-get_townhall_mail(get_townhall_urls)
-
+puts get_townhall_mail(get_townhall_urls)
